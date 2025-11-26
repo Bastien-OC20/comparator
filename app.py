@@ -1,5 +1,6 @@
 """Streamlit application for comparing Excel files."""
 
+import pandas as pd
 import streamlit as st
 
 from comparator import compare_excel_files
@@ -77,6 +78,10 @@ if file1 and file2:
         else:
             st.success("No value differences found in common columns!")
             
+    except pd.errors.EmptyDataError:
+        st.error("One or both files are empty. Please upload valid Excel files with data.")
+    except ValueError as e:
+        st.error(f"Invalid file format or structure: {e!s}")
     except Exception as e:
         st.error(f"Error comparing files: {e!s}")
 else:

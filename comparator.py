@@ -48,15 +48,17 @@ def compare_excel_files(file1, file2, sheet_name=0):
     df1_common = df1[common_cols].reset_index(drop=True)
     df2_common = df2[common_cols].reset_index(drop=True)
     
-    max_rows = max(len(df1_common), len(df2_common))
+    len_df1 = len(df1_common)
+    len_df2 = len(df2_common)
+    max_rows = max(len_df1, len_df2)
     df1_common = df1_common.reindex(range(max_rows))
     df2_common = df2_common.reindex(range(max_rows))
     
     differences = []
     for idx in range(max_rows):
         for col in common_cols:
-            val1 = df1_common.at[idx, col] if idx < len(df1) else None
-            val2 = df2_common.at[idx, col] if idx < len(df2) else None
+            val1 = df1_common.at[idx, col] if idx < len_df1 else None
+            val2 = df2_common.at[idx, col] if idx < len_df2 else None
             
             val1_is_nan = pd.isna(val1)
             val2_is_nan = pd.isna(val2)
